@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   // Primary colors
-  static const Color primary = Color(0xFF0019FF); // Deep blue from the image
+  static const Color primary = Color(
+    0xFF060ACD,
+  ); // Exact blue from the user request
+  static const Color primaryInactive = Color(
+    0x99060ACD,
+  ); // ~60% opacity of the primary
   static const Color primaryLight = Color(0xFFE6E8FF);
 
   // Neutral colors
@@ -11,6 +16,12 @@ class AppColors {
   static const Color grey = Color(0xFF98A2B3);
   static const Color lightGrey = Color(0xFFF2F4F7);
   static const Color border = Color(0xFFD0D5DD);
+
+  // Indicators
+  static const Color success = Color(
+    0xFF12B76A,
+  ); // Green for strength indicators
+  static const Color error = Color(0xFFF04438);
 
   // Theme specific colors - Light
   static const Color backgroundLight = Colors.white;

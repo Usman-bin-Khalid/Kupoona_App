@@ -17,6 +17,17 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool rememberMe = false;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  bool _formFilled = false;
+
+  void _checkForm() {
+    setState(() {
+      _formFilled =
+          _emailController.text.isNotEmpty &&
+          _passwordController.text.isNotEmpty;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,20 +90,20 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             const SizedBox(height: 32),
-            const CustomTextField(
+            CustomTextField(
               label: 'Email',
               hintText: 'Enter your email',
+              controller: _emailController,
               keyboardType: TextInputType.emailAddress,
+              onChanged: (_) => _checkForm(),
             ),
             const SizedBox(height: 20),
             CustomTextField(
               label: 'Password',
               hintText: '••••••••',
               isPassword: true,
-              suffixIcon: IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.visibility_off_outlined),
-              ),
+              controller: _passwordController,
+              onChanged: (_) => _checkForm(),
             ),
             const SizedBox(height: 16),
             Row(
@@ -137,13 +148,18 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(height: 24),
             CustomButton(
               text: 'Sign in',
+              color: _formFilled
+                  ? AppColors.primary
+                  : AppColors.primaryInactive,
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const VerificationScreen(),
-                  ),
-                );
+                if (_formFilled) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const VerificationScreen(),
+                    ),
+                  );
+                }
               },
             ),
             const SizedBox(height: 16),

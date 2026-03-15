@@ -1,12 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../widgets/custom_button.dart';
 import 'reset_password_screen.dart';
 
-class VerificationScreen extends StatelessWidget {
+class VerificationScreen extends StatefulWidget {
   const VerificationScreen({super.key});
+
+  @override
+  State<VerificationScreen> createState() => _VerificationScreenState();
+}
+
+class _VerificationScreenState extends State<VerificationScreen> {
+  final List<TextEditingController> _controllers = List.generate(
+    4,
+    (_) => TextEditingController(),
+  );
+  final List<FocusNode> _focusNodes = List.generate(4, (_) => FocusNode());
+  bool _isComplete = false;
+
+  @override
+  void dispose() {
+    for (var controller in _controllers) {
+      controller.dispose();
+    }
+    for (var node in _focusNodes) {
+      node.dispose();
+    }
+    super.dispose();
+  }
+
+  void _onOtpChanged() {
+    setState(() {
+      _isComplete = _controllers.every((c) => c.text.isNotEmpty);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,17 +101,7 @@ class VerificationScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: List.generate(
                 4,
-                (index) => _buildOtpField(
-                  context,
-                  isDark,
-                  index == 0
-                      ? '1'
-                      : index == 1
-                      ? '2'
-                      : index == 2
-                      ? '3'
-                      : '',
-                ),
+                (index) => _buildOtpField(index, isDark),
               ),
             ),
             const SizedBox(height: 24),
@@ -121,7 +141,7 @@ class VerificationScreen extends StatelessWidget {
                             : AppColors.border,
                       ),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(50),
                       ),
                     ),
                     child: Text(
@@ -139,13 +159,19 @@ class VerificationScreen extends StatelessWidget {
                 Expanded(
                   child: CustomButton(
                     text: 'Verify Code',
+                    borderRadius: 50,
+                    color: _isComplete
+                        ? AppColors.primary
+                        : AppColors.primaryInactive,
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ResetPasswordScreen(),
-                        ),
-                      );
+                      if (_isComplete) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ResetPasswordScreen(),
+                          ),
+                        );
+                      }
                     },
                   ),
                 ),
@@ -158,7 +184,7 @@ class VerificationScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildOtpField(BuildContext context, bool isDark, String value) {
+  Widget _buildOtpField(int index, bool isDark) {
     return Container(
       width: 64,
       height: 64,
@@ -166,21 +192,41 @@ class VerificationScreen extends StatelessWidget {
         color: isDark ? AppColors.surfaceDark : Colors.white,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          color: value.isNotEmpty
+          color: _controllers[index].text.isNotEmpty
               ? AppColors.primary
               : (isDark ? Colors.transparent : AppColors.border),
           width: 2,
         ),
       ),
       child: Center(
-        child: Text(
-          value,
+        child: TextField(
+          controller: _controllers[index],
+          focusNode: _focusNodes[index],
+          textAlign: TextAlign.center,
+          keyboardType: TextInputType.number,
+          inputFormatters: [
+            LengthLimitingTextInputFormatter(1),
+            FilteringTextInputFormatter.digitsOnly,
+          ],
           style: AppTextStyles.poppinsBold(
             fontSize: 24,
             color: isDark
                 ? AppColors.textPrimaryDark
                 : AppColors.textPrimaryLight,
           ),
+          decoration: const InputDecoration(
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.zero,
+            counterText: '',
+          ),
+          onChanged: (value) {
+            if (value.isNotEmpty && index < 3) {
+              _focusNodes[index + 1].requestFocus();
+            } else if (value.isEmpty && index > 0) {
+              _focusNodes[index - 1].requestFocus();
+            }
+            _onOtpChanged();
+          },
         ),
       ),
     );
