@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/app_text_styles.dart';
-import '../../core/theme/app_colors.dart';
-import '../widgets/custom_button.dart';
+import '../../../core/theme/app_text_styles.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../widgets/custom_button.dart';
 import 'user_selection_screen.dart';
 
 class SuccessScreen extends StatelessWidget {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'core/theme/app_theme.dart';
 import 'providers/home_provider.dart';
-import 'views/screens/user_selection_screen.dart';
+import 'views/screens/auth/user_selection_screen.dart';
 
 void main() {
   runApp(
