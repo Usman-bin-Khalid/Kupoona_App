@@ -14,85 +14,112 @@ class UserSelectionScreen extends StatefulWidget {
 
 class _UserSelectionScreenState extends State<UserSelectionScreen> {
   bool isCustomerSelected = true;
-
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Column(
-            children: [
-              const SizedBox(height: 40),
-              Center(
-                child: Image.asset(
-                  AppConstants.logo,
-                  height: 40,
-                  errorBuilder: (context, error, stackTrace) => Text(
-                    'Kuponna',
-                    style: AppTextStyles.poppinsBold(
-                      fontSize: 24,
-                      color: AppColors.primary,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: IntrinsicHeight(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 40),
+
+                        /// Logo
+                        Center(
+                          child: Image.asset(
+                            AppConstants.logo,
+                            height: 40,
+                            errorBuilder: (context, error, stackTrace) => Text(
+                              'Kuponna',
+                              style: AppTextStyles.poppinsBold(
+                                fontSize: 24,
+                                color: AppColors.primary,
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        /// Center Content
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'How would you like to use Kuponna',
+                                textAlign: TextAlign.center,
+                                style: AppTextStyles.poppinsBold(
+                                  fontSize: 20,
+                                  color: isDark
+                                      ? AppColors.textPrimaryDark
+                                      : AppColors.textPrimaryLight,
+                                ),
+                              ),
+                              const SizedBox(height: 40),
+
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: _buildSelectionCard(
+                                      title: 'Customer',
+                                      description:
+                                          'I want to discover great deals and redeem coupons for food, travel, and more.',
+                                      iconPath: AppConstants.customerIcon,
+                                      isSelected: isCustomerSelected,
+                                      onTap: () => setState(
+                                        () => isCustomerSelected = true,
+                                      ),
+                                      isDark: isDark,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 16),
+                                  Expanded(
+                                    child: _buildSelectionCard(
+                                      title: 'Merchant',
+                                      description:
+                                          'I want to list my deals and grow sales through group discounts.',
+                                      iconPath: AppConstants.merchantIcon,
+                                      isSelected: !isCustomerSelected,
+                                      onTap: () => setState(
+                                        () => isCustomerSelected = false,
+                                      ),
+                                      isDark: isDark,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        /// Button Bottom
+                        CustomButton(
+                          text: 'Continue',
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const LoginScreen(),
+                              ),
+                            );
+                          },
+                        ),
+
+                        const SizedBox(height: 20),
+                      ],
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 60),
-              Text(
-                'How would you like to use\nKuponna',
-                textAlign: TextAlign.center,
-                style: AppTextStyles.poppinsBold(
-                  fontSize: 20,
-                  color: isDark
-                      ? AppColors.textPrimaryDark
-                      : AppColors.textPrimaryLight,
-                ),
-              ),
-              const SizedBox(height: 40),
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildSelectionCard(
-                      title: 'Customer',
-                      description:
-                          'I want to discover great deals and redeem coupons for food, travel, and more.',
-                      iconPath: AppConstants.customerIcon,
-                      isSelected: isCustomerSelected,
-                      onTap: () => setState(() => isCustomerSelected = true),
-                      isDark: isDark,
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: _buildSelectionCard(
-                      title: 'Merchant',
-                      description:
-                          'I want to list my deals and grow sales through group discounts.',
-                      iconPath: AppConstants.merchantIcon,
-                      isSelected: !isCustomerSelected,
-                      onTap: () => setState(() => isCustomerSelected = false),
-                      isDark: isDark,
-                    ),
-                  ),
-                ],
-              ),
-              const Spacer(),
-              CustomButton(
-                text: 'Continue',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const LoginScreen(),
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(height: 20),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
@@ -147,10 +174,10 @@ class _UserSelectionScreenState extends State<UserSelectionScreen> {
               title,
               style: AppTextStyles.poppinsBold(
                 fontSize: 16,
-                color: isSelected
-                    ? AppColors.primary
-                    : (isDark
-                          ? AppColors.textPrimaryDark
+                color: isDark
+                    ? AppColors.textPrimaryDark
+                    : (isSelected
+                          ? AppColors.primary
                           : AppColors.textPrimaryLight),
               ),
             ),
