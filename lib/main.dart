@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'core/theme/app_theme.dart';
 import 'providers/home_provider.dart';
-import 'views/screens/home_screen.dart';
+import 'views/screens/user_selection_screen.dart';
 
 void main() {
   runApp(
@@ -21,7 +21,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Kuponna App',
       theme: AppTheme.lightTheme,
-      home: const HomeScreen(),
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.system, // Supports both light and dark modes
+      home: const UserSelectionScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
