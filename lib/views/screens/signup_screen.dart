@@ -104,7 +104,7 @@ class SignupScreen extends StatelessWidget {
               height: 56,
               child: OutlinedButton.icon(
                 onPressed: () {},
-                icon: const Icon(Icons.g_mobiledata, size: 30),
+                icon: Image.asset(AppConstants.googleIcon, height: 24),
                 label: Text(
                   'Sign in with Google',
                   style: AppTextStyles.interBold(
