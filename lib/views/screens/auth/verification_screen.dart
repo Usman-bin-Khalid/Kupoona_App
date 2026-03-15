@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'dart:async';
 import '../../../core/constants/app_constants.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/theme/app_colors.dart';
@@ -7,7 +8,8 @@ import '../../widgets/custom_button.dart';
 import 'reset_password_screen.dart';
 
 class VerificationScreen extends StatefulWidget {
-  const VerificationScreen({super.key});
+  final String email;
+  const VerificationScreen({super.key, required this.email});
 
   @override
   State<VerificationScreen> createState() => _VerificationScreenState();
@@ -20,9 +22,18 @@ class _VerificationScreenState extends State<VerificationScreen> {
   );
   final List<FocusNode> _focusNodes = List.generate(4, (_) => FocusNode());
   bool _isComplete = false;
+  Timer? _timer;
+  int _secondsRemaining = 52;
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
 
   @override
   void dispose() {
+    _timer?.cancel();
     for (var controller in _controllers) {
       controller.dispose();
     }
@@ -32,10 +43,28 @@ class _VerificationScreenState extends State<VerificationScreen> {
     super.dispose();
   }
 
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        if (_secondsRemaining > 0) {
+          _secondsRemaining--;
+        } else {
+          _timer?.cancel();
+        }
+      });
+    });
+  }
+
   void _onOtpChanged() {
     setState(() {
       _isComplete = _controllers.every((c) => c.text.isNotEmpty);
     });
+  }
+
+  String _formatTime(int seconds) {
+    final minutes = (seconds / 60).floor();
+    final remainingSeconds = seconds % 60;
+    return '0${minutes}:${remainingSeconds.toString().padLeft(2, '0')}';
   }
 
   @override
@@ -68,7 +97,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
             ),
             const SizedBox(height: 8),
             Text(
-              'We’ve sent a code to helloworld@gmail.com',
+              'We’ve sent a code to ${widget.email}',
               style: AppTextStyles.interRegular(
                 fontSize: 14,
                 color: isDark
@@ -117,7 +146,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   ),
                   children: [
                     TextSpan(
-                      text: 'Resend code in 00:52',
+                      text: 'Resend code in ${_formatTime(_secondsRemaining)}',
                       style: AppTextStyles.interBold(
                         fontSize: 14,
                         color: AppColors.primary,
@@ -190,7 +219,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
       height: 64,
       decoration: BoxDecoration(
         color: isDark ? AppColors.surfaceDark : Colors.white,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: _controllers[index].text.isNotEmpty
               ? AppColors.primary
@@ -216,6 +245,10 @@ class _VerificationScreenState extends State<VerificationScreen> {
           ),
           decoration: const InputDecoration(
             border: InputBorder.none,
+            enabledBorder: InputBorder.none,
+            focusedBorder: InputBorder.none,
+            errorBorder: InputBorder.none,
+            disabledBorder: InputBorder.none,
             contentPadding: EdgeInsets.zero,
             counterText: '',
           ),
