@@ -119,7 +119,7 @@ class SignupScreen extends StatelessWidget {
                     color: isDark ? AppColors.surfaceDark : AppColors.border,
                   ),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(50),
                   ),
                 ),
               ),
