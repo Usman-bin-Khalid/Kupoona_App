@@ -80,7 +80,6 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
             _buildSectionHeader("Top Deals This Week", showSeeMore: true),
             const SizedBox(height: 16),
             _buildTopDealsThisWeek(isDark),
-            const SizedBox(height: 100),
           ],
         ),
       ),
@@ -178,7 +177,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           ),
         ),
         Positioned(
-          bottom: 0,
+          bottom: -25,
           left: 20,
           right: 20,
           child: CustomSearchBar(

@@ -6,12 +6,14 @@ class CustomSearchBar extends StatelessWidget {
   final String hintText;
   final TextEditingController? controller;
   final Function(String)? onChanged;
+  final VoidCallback? onTuneTap;
 
   const CustomSearchBar({
     super.key,
     this.hintText = "Search Deals",
     this.controller,
     this.onChanged,
+    this.onTuneTap,
   });
 
   @override
@@ -56,7 +58,10 @@ class CustomSearchBar extends StatelessWidget {
               ),
             ),
           ),
-          Icon(Icons.tune, color: isDark ? Colors.white70 : Colors.grey),
+          IconButton(
+            onPressed: onTuneTap,
+            icon: Icon(Icons.tune, color: isDark ? Colors.white70 : Colors.grey),
+          ),
         ],
       ),
     );
