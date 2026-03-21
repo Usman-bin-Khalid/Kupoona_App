@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kuponna_app/views/screens/auth/reset_password_screen.dart';
+import 'package:kuponna_app/views/screens/customer/customer_home_screen.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/theme/app_colors.dart';
