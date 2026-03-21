@@ -5,6 +5,9 @@ import '../../../core/theme/app_text_styles.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_search_bar.dart';
 import '../../widgets/category_chip.dart';
+import '../../widgets/filter_bottom_sheet.dart';
+import 'product_detail_screen.dart';
+import 'notifications_screen.dart';
 
 class CustomerHomeScreen extends StatefulWidget {
   const CustomerHomeScreen({super.key});
@@ -89,11 +92,13 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
 
   Widget _buildHeader(BuildContext context, bool isDark) {
     return Stack(
+      clipBehavior: Clip.none,
       children: [
         Container(
-          height: 280,
+          height: 250,
           width: double.infinity,
           decoration: const BoxDecoration(
+             borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)),
             image: DecorationImage(
               image: AssetImage(AppConstants.front),
               fit: BoxFit.cover,
@@ -156,15 +161,21 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                           ),
                         ),
                         const SizedBox(width: 12),
-                        Container(
-                          width: 45,
-                          height: 45,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(color: Colors.white, width: 2),
-                            image: const DecorationImage(
-                              image: AssetImage(AppConstants.profile),
-                              fit: BoxFit.cover,
+                        GestureDetector(
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => const NotificationsScreen()),
+                          ),
+                          child: Container(
+                            width: 45,
+                            height: 45,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.white, width: 2),
+                              image: const DecorationImage(
+                                image: AssetImage(AppConstants.profile),
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                         ),
@@ -177,12 +188,20 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           ),
         ),
         Positioned(
-          bottom: -25,
+          bottom: -28,
           left: 20,
           right: 20,
           child: CustomSearchBar(
             hintText: "Search Deals",
             onChanged: (value) {},
+            onTuneTap: () {
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: Colors.transparent,
+                builder: (context) => const FilterBottomSheet(),
+              );
+            },
           ),
         ),
       ],
@@ -987,65 +1006,73 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       itemCount: deals.length,
       itemBuilder: (context, index) {
-        return Container(
-          margin: const EdgeInsets.only(bottom: 24),
-          decoration: BoxDecoration(
-            color: isDark ? AppColors.surfaceDark : Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2),
-                blurRadius: 15,
-                offset: const Offset(0, 5),
-              ),
-            ],
+        final dealItem = deals[index];
+        return GestureDetector(
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => ProductDetailScreen(deal: dealItem)),
           ),
-          child: Column(
-            children: [
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.asset(
-                      deals[index]["image"]!,
-                      height: 220,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Positioned(
-                    bottom: -15,
-                    child: Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: const BoxDecoration(
-                        color: Color(0xFF1B5E20), // Dark green from image
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.shopping_basket,
-                        color: Colors.white,
-                        size: 24,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 24),
-              Text(
-                deals[index]["price"]!,
-                style: AppTextStyles.interBold(
-                  fontSize: 18,
-                  color: AppColors.primary,
+          child: Container(
+            margin: const EdgeInsets.only(bottom: 24),
+            decoration: BoxDecoration(
+              color: isDark ? AppColors.surfaceDark : Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  blurRadius: 15,
+                  offset: const Offset(0, 5),
                 ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                deals[index]["name"]!,
-                style: AppTextStyles.interMedium(fontSize: 16),
-              ),
-              const SizedBox(height: 16),
-            ],
+              ],
+            ),
+            child: Column(
+              children: [
+                Stack(
+                  alignment: Alignment.center,
+                  clipBehavior: Clip.none,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.asset(
+                        deals[index]["image"]!,
+                        height: 220,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Positioned(
+                      bottom: -20,
+                      child: Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: const BoxDecoration(
+                          color: Color(0xFF1B5E20), // Dark green from image
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.shopping_basket,
+                          color: Colors.white,
+                          size: 24,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 32),
+                Text(
+                  deals[index]["price"]!,
+                  style: AppTextStyles.interBold(
+                    fontSize: 18,
+                    color: AppColors.primary,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  deals[index]["name"]!,
+                  style: AppTextStyles.interMedium(fontSize: 16),
+                ),
+                const SizedBox(height: 16),
+              ],
+            ),
           ),
         );
       },
