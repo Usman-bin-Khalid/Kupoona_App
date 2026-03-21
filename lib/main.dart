@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       title: 'Kuponna App',
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.light, // Supports both light and dark modes
+      themeMode: ThemeMode.dark, // Supports both light and dark modes
       home: const UserSelectionScreen(),
       debugShowCheckedModeBanner: false,
     );

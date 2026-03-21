@@ -80,7 +80,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
             _buildSectionHeader("Top Deals This Week", showSeeMore: true),
             const SizedBox(height: 16),
             _buildTopDealsThisWeek(isDark),
-            const SizedBox(height: 100), // Space for bottom nav
+            const SizedBox(height: 100),
           ],
         ),
       ),
