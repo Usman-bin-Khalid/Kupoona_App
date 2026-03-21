@@ -156,8 +156,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          VerificationScreen(email: _emailController.text),
+                      builder: (context) => const CustomerHomeScreen(),
                     ),
                   );
                 }
