@@ -430,6 +430,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                           ),
                         ],
                       ),
+
                       const SizedBox(height: 8),
                       SizedBox(
                         height: 35,
@@ -752,6 +753,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
       itemCount: deals.length,
       itemBuilder: (context, index) {
         return Container(
+          padding: EdgeInsets.all(10),
           margin: const EdgeInsets.only(bottom: 24),
           decoration: BoxDecoration(
             color: isDark ? AppColors.surfaceDark : Colors.white,
@@ -993,9 +995,9 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.08),
+                color: Colors.black.withOpacity(0.2),
                 blurRadius: 15,
-                offset: const Offset(0, 8),
+                offset: const Offset(0, 5),
               ),
             ],
           ),
