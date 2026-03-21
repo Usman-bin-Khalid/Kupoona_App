@@ -15,13 +15,33 @@ class CustomerHomeScreen extends StatefulWidget {
 
 class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
   int _currentIndex = 0;
+  String _selectedCategory = "ALL";
+  bool _showAllBestOffers = false;
+
+  final Map<String, List<Map<String, String>>> _categoryDeals = {
+    "ALL": [
+      {"name": "Confectionery and Jam", "image": AppConstants.roll},
+      {"name": "Fresh Smart Bread", "image": AppConstants.roll},
+      {"name": "Fresh Banana", "image": AppConstants.banana},
+      {"name": "Fresh Bottle", "image": AppConstants.rose},
+    ],
+    "CONFECTIONERY": [
+      {"name": "Confectionery and Jam", "image": AppConstants.roll},
+    ],
+    "BREAD": [
+      {"name": "Fresh Smart Bread", "image": AppConstants.roll},
+    ],
+    "MEAT": [], // No meat in constants yet
+  };
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
+      backgroundColor: isDark
+          ? AppColors.backgroundDark
+          : AppColors.backgroundLight,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,13 +54,21 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
             const SizedBox(height: 16),
             _buildNearYouDeals(isDark),
             const SizedBox(height: 24),
-            _buildSectionHeader("Trending deals around you", showSeeMore: false),
+            _buildSectionHeader(
+              "Trending deals around you",
+              showSeeMore: false,
+            ),
             const SizedBox(height: 16),
             _buildCategories(isDark),
             const SizedBox(height: 16),
             _buildTrendingDeals(isDark),
             const SizedBox(height: 24),
-            _buildSectionHeader("Best Offer For You", showSeeMore: true),
+            _buildSectionHeader(
+              "Best Offer For You",
+              showSeeMore: true,
+              onSeeMore: () => setState(() => _showAllBestOffers = !_showAllBestOffers),
+              seeMoreText: _showAllBestOffers ? "See less" : "See more",
+            ),
             const SizedBox(height: 16),
             _buildBestOffers(isDark),
             const SizedBox(height: 24),
@@ -99,11 +127,17 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                       children: [
                         Text(
                           "Hello, Daniel!",
-                          style: AppTextStyles.poppinsBold(fontSize: 24, color: Colors.white),
+                          style: AppTextStyles.poppinsBold(
+                            fontSize: 24,
+                            color: Colors.white,
+                          ),
                         ),
                         Text(
                           "Search deals near by you",
-                          style: AppTextStyles.interRegular(fontSize: 14, color: Colors.white70),
+                          style: AppTextStyles.interRegular(
+                            fontSize: 14,
+                            color: Colors.white70,
+                          ),
                         ),
                       ],
                     ),
@@ -115,7 +149,11 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                             color: Colors.white.withOpacity(0.2),
                             shape: BoxShape.circle,
                           ),
-                          child: const Icon(Icons.location_on_outlined, color: Colors.white, size: 20),
+                          child: const Icon(
+                            Icons.location_on_outlined,
+                            color: Colors.white,
+                            size: 20,
+                          ),
                         ),
                         const SizedBox(width: 12),
                         Container(
@@ -152,30 +190,27 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
   }
 
   Widget _buildQuickActions(bool isDark) {
-    return Padding(
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
         children: [
-          Expanded(
-            child: _buildQuickActionButton(
-              "FOOD DEALS",
-              "Amazing Deals",
-              const Color(0xFFF3E5F5), // Light purple
-              const Color(0xFF9C27B0), // Purple
-              Icons.cake,
-              isDark,
-            ),
+          _buildQuickActionButton(
+            "FOOD DEALS",
+            "Amazing Deals",
+            const Color(0xFFF3E5F5), // Light purple
+            const Color(0xFF9C27B0), // Purple
+            Icons.cake,
+            isDark,
           ),
           const SizedBox(width: 16),
-          Expanded(
-            child: _buildQuickActionButton(
-              "LIMITED GROUPS",
-              "Best Deals",
-              const Color(0xFFFFF3E0), // Light orange
-              const Color(0xFFFF9800), // Orange
-              Icons.bar_chart,
-              isDark,
-            ),
+          _buildQuickActionButton(
+            "LIMITED GROUPS",
+            "Best Deals",
+            const Color(0xFFFFF3E0), // Light orange
+            const Color(0xFFFF9800), // Orange
+            Icons.bar_chart,
+            isDark,
           ),
         ],
       ),
@@ -183,62 +218,80 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
   }
 
   Widget _buildQuickActionButton(
-      String title, String subtitle, Color bgColor, Color iconColor, IconData icon, bool isDark) {
+    String title,
+    String subtitle,
+    Color bgColor,
+    Color iconColor,
+    IconData icon,
+    bool isDark,
+  ) {
     return Container(
+      constraints: const BoxConstraints(minWidth: 154),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: isDark ? AppColors.surfaceDark : bgColor,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
               color: isDark ? Colors.white10 : Colors.white,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Icon(icon, color: iconColor, size: 24),
+            child: Icon(icon, color: iconColor, size: 20),
           ),
-          const SizedBox(width: 12),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: AppTextStyles.interBold(
-                  fontSize: 12,
-                  color: iconColor,
+          const SizedBox(width: 8),
+          Flexible(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  title,
+                  style: AppTextStyles.interBold(fontSize: 10, color: iconColor),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-              ),
-              Text(
-                subtitle,
-                style: AppTextStyles.interRegular(
-                  fontSize: 10,
-                  color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                Text(
+                  subtitle,
+                  style: AppTextStyles.interRegular(
+                    fontSize: 9,
+                    color: isDark
+                        ? AppColors.textSecondaryDark
+                        : AppColors.textSecondaryLight,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildSectionHeader(String title, {required bool showSeeMore}) {
+  Widget _buildSectionHeader(String title,
+      {required bool showSeeMore, VoidCallback? onSeeMore, String? seeMoreText}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            title,
-            style: AppTextStyles.poppinsBold(fontSize: 18),
-          ),
+          Text(title, style: AppTextStyles.poppinsBold(fontSize: 18)),
           if (showSeeMore)
-            Text(
-              "See more",
-              style: AppTextStyles.interMedium(fontSize: 14, color: AppColors.primary),
+            GestureDetector(
+              onTap: onSeeMore,
+              child: Text(
+                seeMoreText ?? "See more",
+                style: AppTextStyles.interMedium(
+                  fontSize: 14,
+                  color: AppColors.primary,
+                ),
+              ),
             ),
         ],
       ),
@@ -247,7 +300,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
 
   Widget _buildNearYouDeals(bool isDark) {
     return SizedBox(
-      height: 250,
+      height: 254,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.only(left: 20),
@@ -271,7 +324,9 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ClipRRect(
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(20),
+                  ),
                   child: Stack(
                     children: [
                       Image.asset(
@@ -284,14 +339,20 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                         top: 10,
                         left: 10,
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
                             color: Colors.green,
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Text(
                             "20% OFF",
-                            style: AppTextStyles.interBold(fontSize: 10, color: Colors.white),
+                            style: AppTextStyles.interBold(
+                              fontSize: 10,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
@@ -310,15 +371,29 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                     children: [
                       Row(
                         children: [
-                          Icon(Icons.location_on, size: 14, color: Colors.grey[400]),
+                          Icon(
+                            Icons.location_on,
+                            size: 14,
+                            color: Colors.grey[400],
+                          ),
                           Text(
                             " 12 KM  ",
-                            style: AppTextStyles.interRegular(fontSize: 12, color: Colors.grey),
+                            style: AppTextStyles.interRegular(
+                              fontSize: 12,
+                              color: Colors.grey,
+                            ),
                           ),
-                          Icon(Icons.access_time, size: 14, color: Colors.grey[400]),
+                          Icon(
+                            Icons.access_time,
+                            size: 14,
+                            color: Colors.grey[400],
+                          ),
                           Text(
                             " 20 mins",
-                            style: AppTextStyles.interRegular(fontSize: 12, color: Colors.grey),
+                            style: AppTextStyles.interRegular(
+                              fontSize: 12,
+                              color: Colors.grey,
+                            ),
                           ),
                         ],
                       ),
@@ -333,7 +408,10 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                         children: [
                           Text(
                             "SAR 11,000",
-                            style: AppTextStyles.interBold(fontSize: 14, color: AppColors.primary),
+                            style: AppTextStyles.interBold(
+                              fontSize: 14,
+                              color: AppColors.primary,
+                            ),
                           ),
                           SizedBox(
                             height: 32,
@@ -369,11 +447,11 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
         padding: const EdgeInsets.only(left: 20),
         itemCount: categories.length,
         itemBuilder: (context, index) {
-          bool isSelected = index == 0;
+          bool isSelected = _selectedCategory == categories[index];
           return CategoryChip(
             label: categories[index],
             isSelected: isSelected,
-            onTap: () {},
+            onTap: () => setState(() => _selectedCategory = categories[index]),
           );
         },
       ),
@@ -381,12 +459,16 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
   }
 
   Widget _buildTrendingDeals(bool isDark) {
-    List<Map<String, String>> deals = [
-      {"name": "Confectionery and Jam", "image": AppConstants.roll},
-      {"name": "Fresh Smart Bread", "image": AppConstants.roll},
-      {"name": "Fresh Banana", "image": AppConstants.banana},
-      {"name": "Fresh Bottle", "image": AppConstants.rose},
-    ];
+    List<Map<String, String>> deals = _categoryDeals[_selectedCategory] ?? [];
+
+    if (deals.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.all(40.0),
+        child: Center(
+            child: Text("No deals available in this category",
+                style: AppTextStyles.interMedium(color: Colors.grey))),
+      );
+    }
 
     return ListView.builder(
       shrinkWrap: true,
@@ -411,7 +493,9 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(20),
+                ),
                 child: Stack(
                   children: [
                     Image.asset(
@@ -433,16 +517,29 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                           4,
                           (i) => Container(
                             margin: const EdgeInsets.only(right: 8),
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Row(
                               children: [
-                                Icon(Icons.restaurant, size: 12, color: Colors.grey[600]),
+                                Icon(
+                                  Icons.restaurant,
+                                  size: 12,
+                                  color: Colors.grey[600],
+                                ),
                                 const SizedBox(width: 4),
-                                Text("20", style: AppTextStyles.interBold(fontSize: 10, color: Colors.grey[600])),
+                                Text(
+                                  "20",
+                                  style: AppTextStyles.interBold(
+                                    fontSize: 10,
+                                    color: Colors.grey[600],
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -464,34 +561,52 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                     const SizedBox(height: 8),
                     Row(
                       children: [
-                        Icon(Icons.location_on, size: 14, color: Colors.grey[400]),
+                        Icon(
+                          Icons.location_on,
+                          size: 14,
+                          color: Colors.grey[400],
+                        ),
                         Text(
                           " 02 KM  ",
-                          style: AppTextStyles.interRegular(fontSize: 14, color: Colors.grey),
+                          style: AppTextStyles.interRegular(
+                            fontSize: 14,
+                            color: Colors.grey,
+                          ),
                         ),
-                        Icon(Icons.access_time, size: 14, color: Colors.grey[400]),
+                        Icon(
+                          Icons.access_time,
+                          size: 14,
+                          color: Colors.grey[400],
+                        ),
                         Text(
                           " 20 mins",
-                          style: AppTextStyles.interRegular(fontSize: 14, color: Colors.grey),
+                          style: AppTextStyles.interRegular(
+                            fontSize: 14,
+                            color: Colors.grey,
+                          ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 12),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           "SAR 15,000",
-                          style: AppTextStyles.interBold(fontSize: 18, color: AppColors.primary),
+                          style: AppTextStyles.interBold(
+                            fontSize: 18,
+                            color: AppColors.primary,
+                          ),
                         ),
+                        const SizedBox(height: 12),
                         CustomButton(
                           text: "Reserve Deal",
                           onPressed: () {},
-                          width: 120,
-                          height: 40,
-                          borderRadius: 20,
+                          width: double.infinity,
+                          height: 48,
+                          borderRadius: 12,
                           color: AppColors.primary,
-                          fontSize: 12,
+                          fontSize: 14,
                         ),
                       ],
                     ),
@@ -506,42 +621,48 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
   }
 
   Widget _buildBestOffers(bool isDark) {
-    List<Map<String, String>> offers = [
+    List<Map<String, String>> allOffers = [
       {"name": "Macaroon and Jam", "image": AppConstants.roll},
       {"name": "Fresh Brown Bread", "image": AppConstants.roll},
       {"name": "Fresh Banana", "image": AppConstants.banana},
       {"name": "Red Rose", "image": AppConstants.rose},
+      {"name": "Special Sushi", "image": AppConstants.suchi},
+      {"name": "Fresh Carrot", "image": AppConstants.carrat},
     ];
 
-    return SizedBox(
-      height: 120,
+    List<Map<String, String>> displayedOffers =
+        _showAllBestOffers ? allOffers : allOffers.take(4).toList();
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.only(left: 20),
-        itemCount: offers.length,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: displayedOffers.length,
         itemBuilder: (context, index) {
           return Container(
-            width: 300,
-            margin: const EdgeInsets.only(right: 16),
+            margin: const EdgeInsets.only(bottom: 16),
             decoration: BoxDecoration(
               color: isDark ? AppColors.surfaceDark : Colors.white,
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 10,
-                  offset: const Offset(0, 5),
+                  color: Colors.black.withOpacity(0.08),
+                  blurRadius: 15,
+                  offset: const Offset(0, 8),
                 ),
               ],
             ),
             child: Row(
               children: [
                 ClipRRect(
-                  borderRadius: const BorderRadius.horizontal(left: Radius.circular(16)),
+                  borderRadius: const BorderRadius.horizontal(
+                    left: Radius.circular(16),
+                  ),
                   child: Image.asset(
-                    offers[index]["image"]!,
+                    displayedOffers[index]["image"]!,
                     width: 100,
-                    height: 120,
+                    height: 100,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -555,12 +676,16 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                         Row(
                           children: List.generate(
                             5,
-                            (i) => const Icon(Icons.star, color: Colors.amber, size: 12),
+                            (i) => const Icon(
+                              Icons.star,
+                              color: Colors.amber,
+                              size: 12,
+                            ),
                           ),
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          offers[index]["name"]!,
+                          displayedOffers[index]["name"]!,
                           style: AppTextStyles.interBold(fontSize: 14),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -568,7 +693,10 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                         const SizedBox(height: 8),
                         Text(
                           "SAR 15,000",
-                          style: AppTextStyles.interBold(fontSize: 14, color: AppColors.primary),
+                          style: AppTextStyles.interBold(
+                            fontSize: 14,
+                            color: AppColors.primary,
+                          ),
                         ),
                       ],
                     ),
@@ -576,7 +704,11 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Icon(Icons.favorite_border, color: Colors.grey[400], size: 20),
+                  child: Icon(
+                    Icons.favorite_border,
+                    color: Colors.grey[400],
+                    size: 20,
+                  ),
                 ),
               ],
             ),
@@ -622,14 +754,20 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                       top: 10,
                       left: 10,
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
                           color: AppColors.error,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
                           "Hot Deal",
-                          style: AppTextStyles.interBold(fontSize: 10, color: Colors.white),
+                          style: AppTextStyles.interBold(
+                            fontSize: 10,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
@@ -639,7 +777,11 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                       child: CircleAvatar(
                         backgroundColor: Colors.white,
                         radius: 18,
-                        child: Icon(Icons.favorite_border, color: Colors.grey, size: 20),
+                        child: Icon(
+                          Icons.favorite_border,
+                          color: Colors.grey,
+                          size: 20,
+                        ),
                       ),
                     ),
                     Positioned(
@@ -650,12 +792,21 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                           4,
                           (i) => Container(
                             margin: const EdgeInsets.only(right: 8),
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            child: Text("20", style: AppTextStyles.interBold(fontSize: 10, color: Colors.grey)),
+                            child: Text(
+                              "20",
+                              style: AppTextStyles.interBold(
+                                fontSize: 10,
+                                color: Colors.grey,
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -667,12 +818,28 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
               Row(
                 children: [
                   Row(
-                    children: List.generate(3, (i) => const Icon(Icons.star, color: Colors.amber, size: 14)),
+                    children: List.generate(
+                      3,
+                      (i) =>
+                          const Icon(Icons.star, color: Colors.amber, size: 14),
+                    ),
                   ),
                   const SizedBox(width: 8),
-                  Text("(4.0)", style: AppTextStyles.interRegular(fontSize: 12, color: Colors.grey)),
+                  Text(
+                    "(4.0)",
+                    style: AppTextStyles.interRegular(
+                      fontSize: 12,
+                      color: Colors.grey,
+                    ),
+                  ),
                   const Spacer(),
-                  Text("Limited", style: AppTextStyles.interMedium(fontSize: 12, color: Colors.grey)),
+                  Text(
+                    "Limited",
+                    style: AppTextStyles.interMedium(
+                      fontSize: 12,
+                      color: Colors.grey,
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 8),
@@ -683,8 +850,20 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
               const SizedBox(height: 4),
               Row(
                 children: [
-                  Text("By Merchant ", style: AppTextStyles.interRegular(fontSize: 14, color: Colors.grey)),
-                  Text("Confectionery", style: AppTextStyles.interBold(fontSize: 14, color: AppColors.primary)),
+                  Text(
+                    "By Merchant ",
+                    style: AppTextStyles.interRegular(
+                      fontSize: 14,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  Text(
+                    "Confectionery",
+                    style: AppTextStyles.interBold(
+                      fontSize: 14,
+                      color: AppColors.primary,
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 8),
@@ -692,7 +871,10 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                 children: [
                   Text(
                     "SAR 15,000  ",
-                    style: AppTextStyles.interBold(fontSize: 18, color: AppColors.primary),
+                    style: AppTextStyles.interBold(
+                      fontSize: 18,
+                      color: AppColors.primary,
+                    ),
                   ),
                   Text(
                     "SAR 18,000",
@@ -703,7 +885,13 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                     ),
                   ),
                   const Spacer(),
-                  Text("4.5%", style: AppTextStyles.interBold(fontSize: 14, color: AppColors.primary)),
+                  Text(
+                    "4.5%",
+                    style: AppTextStyles.interBold(
+                      fontSize: 14,
+                      color: AppColors.primary,
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 16),
@@ -724,11 +912,16 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                       style: OutlinedButton.styleFrom(
                         minimumSize: const Size(double.infinity, 48),
                         side: BorderSide(color: AppColors.primary),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                       child: Text(
                         "View Details",
-                        style: AppTextStyles.interBold(fontSize: 16, color: AppColors.primary),
+                        style: AppTextStyles.interBold(
+                          fontSize: 16,
+                          color: AppColors.primary,
+                        ),
                       ),
                     ),
                   ),
@@ -743,9 +936,21 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
 
   Widget _buildTopDealsThisWeek(bool isDark) {
     List<Map<String, String>> deals = [
-      {"name": "Fresh Sweet Roast", "image": AppConstants.roll, "price": "SAR 1,000"},
-      {"name": "Fresh Banana milk", "image": AppConstants.banana, "price": "SAR 450"},
-      {"name": "Local farm carrot", "image": AppConstants.carrat, "price": "SAR 2,000"},
+      {
+        "name": "Fresh Sweet Roast",
+        "image": AppConstants.roll,
+        "price": "SAR 1,000",
+      },
+      {
+        "name": "Fresh Banana milk",
+        "image": AppConstants.banana,
+        "price": "SAR 450",
+      },
+      {
+        "name": "Local farm carrot",
+        "image": AppConstants.carrat,
+        "price": "SAR 2,000",
+      },
     ];
 
     return ListView.builder(
@@ -778,7 +983,11 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                         color: Color(0xFF1B5E20), // Dark green from image
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(Icons.shopping_basket, color: Colors.white, size: 24),
+                      child: const Icon(
+                        Icons.shopping_basket,
+                        color: Colors.white,
+                        size: 24,
+                      ),
                     ),
                   ),
                 ],
@@ -786,7 +995,10 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
               const SizedBox(height: 24),
               Text(
                 deals[index]["price"]!,
-                style: AppTextStyles.interBold(fontSize: 18, color: AppColors.primary),
+                style: AppTextStyles.interBold(
+                  fontSize: 18,
+                  color: AppColors.primary,
+                ),
               ),
               const SizedBox(height: 4),
               Text(
@@ -805,7 +1017,9 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
     return Container(
       decoration: BoxDecoration(
         color: isDark ? AppColors.surfaceDark : Colors.white,
-        border: Border(top: BorderSide(color: isDark ? Colors.white10 : Colors.grey[200]!)),
+        border: Border(
+          top: BorderSide(color: isDark ? Colors.white10 : Colors.grey[200]!),
+        ),
       ),
       child: BottomNavigationBar(
         currentIndex: _currentIndex,
@@ -822,9 +1036,18 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
-          BottomNavigationBarItem(icon: Icon(Icons.local_offer_outlined), label: "My Deals"),
-          BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet_outlined), label: "Wallet"),
-          BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: "Profile"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.local_offer_outlined),
+            label: "My Deals",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_balance_wallet_outlined),
+            label: "Wallet",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            label: "Profile",
+          ),
         ],
       ),
     );
