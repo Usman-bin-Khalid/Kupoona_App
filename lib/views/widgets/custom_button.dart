@@ -12,6 +12,7 @@ class CustomButton extends StatelessWidget {
   final bool isLoading;
   final double? width;
   final double height;
+  final double? fontSize;
 
   const CustomButton({
     super.key,
@@ -24,6 +25,7 @@ class CustomButton extends StatelessWidget {
     this.isLoading = false,
     this.width,
     this.height = 56.0,
+    this.fontSize,
   });
 
   @override
@@ -57,7 +59,7 @@ class CustomButton extends StatelessWidget {
                   Text(
                     text,
                     style: AppTextStyles.interBold(
-                      fontSize: 16,
+                      fontSize: fontSize ?? 16,
                       color: textColor ?? Colors.white,
                     ),
                   ),

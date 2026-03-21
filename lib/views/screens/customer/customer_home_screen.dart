@@ -3,6 +3,8 @@ import '../../../core/constants/app_constants.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../widgets/custom_button.dart';
+import '../../widgets/custom_search_bar.dart';
+import '../../widgets/category_chip.dart';
 
 class CustomerHomeScreen extends StatefulWidget {
   const CustomerHomeScreen({super.key});
@@ -140,36 +142,9 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           bottom: 0,
           left: 20,
           right: 20,
-          child: Container(
-            height: 56,
-            decoration: BoxDecoration(
-              color: isDark ? AppColors.surfaceDark : Colors.white,
-              borderRadius: BorderRadius.circular(30),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 10,
-                  offset: const Offset(0, 5),
-                ),
-              ],
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              children: [
-                Icon(Icons.search, color: isDark ? Colors.white70 : Colors.grey),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(
-                    "Search Deals",
-                    style: AppTextStyles.interRegular(
-                      color: isDark ? Colors.white70 : Colors.grey,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-                Icon(Icons.tune, color: isDark ? Colors.white70 : Colors.grey),
-              ],
-            ),
+          child: CustomSearchBar(
+            hintText: "Search Deals",
+            onChanged: (value) {},
           ),
         ),
       ],
@@ -369,6 +344,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                               height: 32,
                               borderRadius: 8,
                               color: AppColors.primary,
+                              fontSize: 10,
                             ),
                           ),
                         ],
@@ -394,21 +370,10 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
         itemCount: categories.length,
         itemBuilder: (context, index) {
           bool isSelected = index == 0;
-          return Container(
-            margin: const EdgeInsets.only(right: 10),
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            decoration: BoxDecoration(
-              color: isSelected ? AppColors.primary : (isDark ? AppColors.surfaceDark : Colors.grey[200]),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              categories[index],
-              style: AppTextStyles.interBold(
-                fontSize: 12,
-                color: isSelected ? Colors.white : (isDark ? Colors.white70 : Colors.grey[600]),
-              ),
-            ),
+          return CategoryChip(
+            label: categories[index],
+            isSelected: isSelected,
+            onTap: () {},
           );
         },
       ),
@@ -526,6 +491,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                           height: 40,
                           borderRadius: 20,
                           color: AppColors.primary,
+                          fontSize: 12,
                         ),
                       ],
                     ),
