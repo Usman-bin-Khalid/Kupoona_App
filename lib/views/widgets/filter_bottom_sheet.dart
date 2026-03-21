@@ -22,6 +22,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     "Meat Sharing", "Restaurant Deals", "Food"
   ];
 
+  final Set<int> _selectedDeals = {2, 3, 7, 9, 14}; // Food and some others as seen in image
+
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -46,72 +48,76 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           ),
           const SizedBox(height: 20),
           Text("Price Range", style: AppTextStyles.interBold(fontSize: 16)),
+          const SizedBox(height: 10),
           RangeSlider(
             values: _priceRange,
             min: 0,
             max: 100,
             activeColor: AppColors.primary,
             inactiveColor: Colors.grey.withOpacity(0.3),
-            labels: RangeLabels(
-              "N${_priceRange.start.toInt()},000",
-              "N${_priceRange.end.toInt()},000",
-            ),
             onChanged: (values) => setState(() => _priceRange = values),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("N${_priceRange.start.toInt()},000", style: AppTextStyles.interRegular(fontSize: 12, color: Colors.grey)),
-              Text("N${_priceRange.end.toInt()},000", style: AppTextStyles.interRegular(fontSize: 12, color: Colors.grey)),
+              Text("N${_priceRange.start.toInt().toString().padLeft(2, '0')},000", style: AppTextStyles.interRegular(fontSize: 10, color: Colors.grey)),
+              Text("N${_priceRange.end.toInt().toString().padLeft(2, '0')},000", style: AppTextStyles.interRegular(fontSize: 10, color: Colors.grey)),
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 24),
           Text("Discount:", style: AppTextStyles.interBold(fontSize: 16)),
+          const SizedBox(height: 10),
           RangeSlider(
             values: _discountRange,
             min: 0,
             max: 100,
             activeColor: AppColors.primary,
             inactiveColor: Colors.grey.withOpacity(0.3),
-            labels: RangeLabels(
-              "${_discountRange.start.toInt()}%",
-              "${_discountRange.end.toInt()}%",
-            ),
             onChanged: (values) => setState(() => _discountRange = values),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("${_discountRange.start.toInt()}%", style: AppTextStyles.interRegular(fontSize: 12, color: Colors.grey)),
-              Text("${_discountRange.end.toInt()}%", style: AppTextStyles.interRegular(fontSize: 12, color: Colors.grey)),
+              Text("${_discountRange.start.toInt()}%", style: AppTextStyles.interRegular(fontSize: 10, color: Colors.grey)),
+              Text("${_discountRange.end.toInt()}%", style: AppTextStyles.interRegular(fontSize: 10, color: Colors.grey)),
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 24),
           Text("Deals", style: AppTextStyles.interBold(fontSize: 16)),
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
           Wrap(
             spacing: 8,
-            runSpacing: 8,
-            children: _deals.map((deal) {
-              bool isSelected = deal == "Food" || deal == "Restaurant Deals" && _deals.indexOf(deal) % 2 == 0;
-
-              return Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: BoxDecoration(
-                  color: isSelected ? Colors.blue[900] : (isDark ? Colors.white12 : Colors.grey[200]),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  deal,
-                  style: AppTextStyles.interMedium(
-                    fontSize: 12,
-                    color: isSelected ? Colors.white : (isDark ? Colors.white70 : Colors.black87),
+            runSpacing: 10,
+            children: List.generate(_deals.length, (index) {
+              bool isSelected = _selectedDeals.contains(index);
+              return GestureDetector(
+                onTap: () {
+                  setState(() {
+                    if (isSelected) {
+                      _selectedDeals.remove(index);
+                    } else {
+                      _selectedDeals.add(index);
+                    }
+                  });
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: isSelected ? const Color(0xFF0000CC) : (isDark ? Colors.white10 : Colors.grey[100]),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    _deals[index],
+                    style: AppTextStyles.interMedium(
+                      fontSize: 11,
+                      color: isSelected ? Colors.white : (isDark ? Colors.white70 : Colors.black87),
+                    ),
                   ),
                 ),
               );
-            }).toList(),
+            }),
           ),
-          const SizedBox(height: 30),
+          const SizedBox(height: 40),
           Row(
             children: [
               Expanded(
@@ -120,14 +126,16 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                     setState(() {
                       _priceRange = const RangeValues(20, 70);
                       _discountRange = const RangeValues(25, 50);
+                      _selectedDeals.clear();
+                      _selectedDeals.addAll({2, 3, 7, 9, 14});
                     });
                   },
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
-                    side: BorderSide(color: AppColors.primary),
+                    side: BorderSide(color: isDark ? Colors.white30 : Colors.grey[300]!),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                   ),
-                  child: Text("Reset All", style: AppTextStyles.interBold(fontSize: 16, color: AppColors.primary)),
+                  child: Text("Reset All", style: AppTextStyles.interBold(fontSize: 16, color: isDark ? Colors.white70 : Colors.black87)),
                 ),
               ),
               const SizedBox(width: 16),
@@ -137,6 +145,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                   onPressed: () => Navigator.pop(context),
                   borderRadius: 30,
                   height: 56,
+                  color: const Color(0xFF0000CC), // Dark blue from image
                 ),
               ),
             ],

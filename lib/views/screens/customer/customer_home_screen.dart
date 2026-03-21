@@ -334,138 +334,145 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
         padding: const EdgeInsets.only(left: 20),
         itemCount: 3,
         itemBuilder: (context, index) {
-          return Container(
-            width: MediaQuery.of(context).size.width * 0.66,
-            margin: const EdgeInsets.only(right: 16),
-            decoration: BoxDecoration(
-              color: isDark ? AppColors.surfaceDark : Colors.white,
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
-                  blurRadius: 15,
-                  offset: const Offset(0, 5),
-                ),
-              ],
+          final deal = {"name": "Sushi lunch combi", "image": AppConstants.suchi};
+          return GestureDetector(
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => ProductDetailScreen(deal: deal),
+              ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(20),
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.66,
+              margin: const EdgeInsets.only(right: 16),
+              decoration: BoxDecoration(
+                color: isDark ? AppColors.surfaceDark : Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    blurRadius: 15,
+                    offset: const Offset(0, 5),
                   ),
-                  child: Stack(
-                    children: [
-                      Image.asset(
-                        AppConstants.suchi,
-                        height: 120,
-                        width: double.infinity,
-                        fit: BoxFit.fill,
-                      ),
-                      Positioned(
-                        top: 10,
-                        left: 10,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 4,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Text(
-                            "20% OFF",
-                            style: AppTextStyles.interBold(
-                              fontSize: 10,
-                              color: Colors.white,
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ClipRRect(
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(20),
+                    ),
+                    child: Stack(
+                      children: [
+                        Image.asset(
+                          AppConstants.suchi,
+                          height: 120,
+                          width: double.infinity,
+                          fit: BoxFit.fill,
+                        ),
+                        Positioned(
+                          top: 10,
+                          left: 10,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.green,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Text(
+                              "20% OFF",
+                              style: AppTextStyles.interBold(
+                                fontSize: 10,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      const Positioned(
-                        top: 10,
-                        right: 10,
-                        child: Icon(Icons.favorite_border, color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.location_on,
-                            size: 14,
-                            color: Colors.grey[400],
-                          ),
-                          Text(
-                            " 12 KM  ",
-
-                            style: AppTextStyles.interRegular(
-                              fontSize: 12,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          Icon(
-                            Icons.access_time,
-                            size: 14,
-                            color: Colors.grey[400],
-                          ),
-                          Text(
-                            " 20 mins",
-                            style: AppTextStyles.interRegular(
-                              fontSize: 12,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        "Sushi lunch combi",
-                        style: AppTextStyles.interBold(fontSize: 16),
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            "SAR 11,000",
-                            style: AppTextStyles.interBold(
-                              fontSize: 14,
-                              color: AppColors.primary,
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      const SizedBox(height: 8),
-                      SizedBox(
-                        height: 35,
-                        width: double.infinity,
-                        child: CustomButton(
-                          text: "Reserve Deal",
-                          onPressed: () {},
-                          height: 32,
-                          borderRadius: 8,
-                          color: AppColors.primary,
-                          fontSize: 10,
+                        const Positioned(
+                          top: 10,
+                          right: 10,
+                          child: Icon(Icons.favorite_border, color: Colors.white),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.location_on,
+                              size: 14,
+                              color: Colors.grey[400],
+                            ),
+                            Text(
+                              " 12 KM  ",
+                              style: AppTextStyles.interRegular(
+                                fontSize: 12,
+                                color: Colors.grey,
+                              ),
+                            ),
+                            Icon(
+                              Icons.access_time,
+                              size: 14,
+                              color: Colors.grey[400],
+                            ),
+                            Text(
+                              " 20 mins",
+                              style: AppTextStyles.interRegular(
+                                fontSize: 12,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          "Sushi lunch combi",
+                          style: AppTextStyles.interBold(fontSize: 16),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "SAR 11,000",
+                              style: AppTextStyles.interBold(
+                                fontSize: 14,
+                                color: AppColors.primary,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        SizedBox(
+                          height: 35,
+                          width: double.infinity,
+                          child: CustomButton(
+                            text: "Reserve Deal",
+                            onPressed: () {},
+                            height: 32,
+                            borderRadius: 8,
+                            color: AppColors.primary,
+                            fontSize: 10,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         },
@@ -514,144 +521,153 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       itemCount: deals.length,
       itemBuilder: (context, index) {
-        return Container(
-          margin: const EdgeInsets.only(bottom: 16),
-          decoration: BoxDecoration(
-            color: isDark ? AppColors.surfaceDark : Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2),
-                blurRadius: 15,
-                offset: const Offset(0, 5),
-              ),
-            ],
+        final deal = deals[index];
+        return GestureDetector(
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => ProductDetailScreen(deal: deal),
+            ),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(20),
+          child: Container(
+            margin: const EdgeInsets.only(bottom: 16),
+            decoration: BoxDecoration(
+              color: isDark ? AppColors.surfaceDark : Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  blurRadius: 15,
+                  offset: const Offset(0, 5),
                 ),
-                child: Stack(
-                  children: [
-                    Image.asset(
-                      deals[index]["image"]!,
-                      height: 180,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
-                    const Positioned(
-                      top: 10,
-                      right: 10,
-                      child: Icon(Icons.favorite_border, color: Colors.white),
-                    ),
-                    Positioned(
-                      bottom: 10,
-                      left: 10,
-                      child: Row(
-                        children: List.generate(
-                          4,
-                          (i) => Container(
-                            margin: const EdgeInsets.only(right: 8),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 4,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.restaurant,
-                                  size: 12,
-                                  color: Colors.grey[600],
-                                ),
-                                const SizedBox(width: 4),
-                                Text(
-                                  "20",
-                                  style: AppTextStyles.interBold(
-                                    fontSize: 10,
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(20),
+                  ),
+                  child: Stack(
+                    children: [
+                      Image.asset(
+                        deal["image"]!,
+                        height: 180,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                      const Positioned(
+                        top: 10,
+                        right: 10,
+                        child: Icon(Icons.favorite_border, color: Colors.white),
+                      ),
+                      Positioned(
+                        bottom: 10,
+                        left: 10,
+                        child: Row(
+                          children: List.generate(
+                            4,
+                            (i) => Container(
+                              margin: const EdgeInsets.only(right: 8),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.restaurant,
+                                    size: 12,
                                     color: Colors.grey[600],
                                   ),
-                                ),
-                              ],
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    "20",
+                                    style: AppTextStyles.interBold(
+                                      fontSize: 10,
+                                      color: Colors.grey[600],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      deals[index]["name"]!,
-                      style: AppTextStyles.interBold(fontSize: 18),
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.location_on,
-                          size: 14,
-                          color: Colors.grey[400],
-                        ),
-                        Text(
-                          " 02 KM  ",
-                          style: AppTextStyles.interRegular(
-                            fontSize: 14,
-                            color: Colors.grey,
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        deal["name"]!,
+                        style: AppTextStyles.interBold(fontSize: 18),
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.location_on,
+                            size: 14,
+                            color: Colors.grey[400],
                           ),
-                        ),
-                        Icon(
-                          Icons.access_time,
-                          size: 14,
-                          color: Colors.grey[400],
-                        ),
-                        Text(
-                          " 20 mins",
-                          style: AppTextStyles.interRegular(
-                            fontSize: 14,
-                            color: Colors.grey,
+                          Text(
+                            " 02 KM  ",
+                            style: AppTextStyles.interRegular(
+                              fontSize: 14,
+                              color: Colors.grey,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "SAR 15,000",
-                          style: AppTextStyles.interBold(
-                            fontSize: 18,
+                          Icon(
+                            Icons.access_time,
+                            size: 14,
+                            color: Colors.grey[400],
+                          ),
+                          Text(
+                            " 20 mins",
+                            style: AppTextStyles.interRegular(
+                              fontSize: 14,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "SAR 15,000",
+                            style: AppTextStyles.interBold(
+                              fontSize: 18,
+                              color: AppColors.primary,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          CustomButton(
+                            text: "Reserve Deal",
+                            onPressed: () {},
+                            width: double.infinity,
+                            height: 48,
+                            borderRadius: 12,
                             color: AppColors.primary,
+                            fontSize: 14,
                           ),
-                        ),
-                        const SizedBox(height: 12),
-                        CustomButton(
-                          text: "Reserve Deal",
-                          onPressed: () {},
-                          width: double.infinity,
-                          height: 48,
-                          borderRadius: 12,
-                          color: AppColors.primary,
-                          fontSize: 14,
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
@@ -679,77 +695,86 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
         physics: const NeverScrollableScrollPhysics(),
         itemCount: displayedOffers.length,
         itemBuilder: (context, index) {
-          return Container(
-            margin: const EdgeInsets.only(bottom: 16),
-            decoration: BoxDecoration(
-              color: isDark ? AppColors.surfaceDark : Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
-                  blurRadius: 15,
-                  offset: const Offset(0, 5),
-                ),
-              ],
+          final deal = displayedOffers[index];
+          return GestureDetector(
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => ProductDetailScreen(deal: deal),
+              ),
             ),
-            child: Row(
-              children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.horizontal(
-                    left: Radius.circular(16),
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 16),
+              decoration: BoxDecoration(
+                color: isDark ? AppColors.surfaceDark : Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    blurRadius: 15,
+                    offset: const Offset(0, 5),
                   ),
-                  child: Image.asset(
-                    displayedOffers[index]["image"]!,
-                    width: 100,
-                    height: 100,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          children: List.generate(
-                            5,
-                            (i) => const Icon(
-                              Icons.star,
-                              color: Colors.amber,
-                              size: 12,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          displayedOffers[index]["name"]!,
-                          style: AppTextStyles.interBold(fontSize: 14),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          "SAR 15,000",
-                          style: AppTextStyles.interBold(
-                            fontSize: 14,
-                            color: AppColors.primary,
-                          ),
-                        ),
-                      ],
+                ],
+              ),
+              child: Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: const BorderRadius.horizontal(
+                      left: Radius.circular(16),
+                    ),
+                    child: Image.asset(
+                      deal["image"]!,
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.cover,
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.favorite_border,
-                    color: Colors.grey[400],
-                    size: 20,
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            children: List.generate(
+                              5,
+                              (i) => const Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                                size: 12,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            deal["name"]!,
+                            style: AppTextStyles.interBold(fontSize: 14),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            "SAR 15,000",
+                            style: AppTextStyles.interBold(
+                              fontSize: 14,
+                              color: AppColors.primary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.favorite_border,
+                      color: Colors.grey[400],
+                      size: 20,
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         },
@@ -770,211 +795,220 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       itemCount: deals.length,
       itemBuilder: (context, index) {
-        return Container(
-          padding: EdgeInsets.all(10),
-          margin: const EdgeInsets.only(bottom: 24),
-          decoration: BoxDecoration(
-            color: isDark ? AppColors.surfaceDark : Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.08),
-                blurRadius: 15,
-                offset: const Offset(0, 8),
-              ),
-            ],
+        final deal = deals[index];
+        return GestureDetector(
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => ProductDetailScreen(deal: deal),
+            ),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Stack(
-                  children: [
-                    Image.asset(
-                      deals[index]["image"]!,
-                      height: 200,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
-                    Positioned(
-                      top: 10,
-                      left: 10,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColors.error,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          "Hot Deal",
-                          style: AppTextStyles.interBold(
-                            fontSize: 10,
-                            color: Colors.white,
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            margin: const EdgeInsets.only(bottom: 24),
+            decoration: BoxDecoration(
+              color: isDark ? AppColors.surfaceDark : Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.08),
+                  blurRadius: 15,
+                  offset: const Offset(0, 8),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Stack(
+                    children: [
+                      Image.asset(
+                        deal["image"]!,
+                        height: 200,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                      Positioned(
+                        top: 10,
+                        left: 10,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.error,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            "Hot Deal",
+                            style: AppTextStyles.interBold(
+                              fontSize: 10,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    const Positioned(
-                      top: 10,
-                      right: 10,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        radius: 18,
-                        child: Icon(
-                          Icons.favorite_border,
-                          color: Colors.grey,
-                          size: 20,
+                      const Positioned(
+                        top: 10,
+                        right: 10,
+                        child: CircleAvatar(
+                          backgroundColor: Colors.white,
+                          radius: 18,
+                          child: Icon(
+                            Icons.favorite_border,
+                            color: Colors.grey,
+                            size: 20,
+                          ),
                         ),
                       ),
-                    ),
-                    Positioned(
-                      bottom: 10,
-                      left: 10,
-                      child: Row(
-                        children: List.generate(
-                          4,
-                          (i) => Container(
-                            margin: const EdgeInsets.only(right: 8),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 4,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Text(
-                              "20",
-                              style: AppTextStyles.interBold(
-                                fontSize: 10,
-                                color: Colors.grey,
+                      Positioned(
+                        bottom: 10,
+                        left: 10,
+                        child: Row(
+                          children: List.generate(
+                            4,
+                            (i) => Container(
+                              margin: const EdgeInsets.only(right: 8),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                "20",
+                                style: AppTextStyles.interBold(
+                                  fontSize: 10,
+                                  color: Colors.grey,
+                                ),
                               ),
                             ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    Row(
+                      children: List.generate(
+                        3,
+                        (i) =>
+                            const Icon(Icons.star, color: Colors.amber, size: 14),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      "(4.0)",
+                      style: AppTextStyles.interRegular(
+                        fontSize: 12,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    const Spacer(),
+                    Text(
+                      "Limited",
+                      style: AppTextStyles.interMedium(
+                        fontSize: 12,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  deal["name"]!,
+                  style: AppTextStyles.interBold(fontSize: 18),
+                ),
+                const SizedBox(height: 4),
+                Row(
+                  children: [
+                    Text(
+                      "By Merchant ",
+                      style: AppTextStyles.interRegular(
+                        fontSize: 14,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    Text(
+                      "Confectionery",
+                      style: AppTextStyles.interBold(
+                        fontSize: 14,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    Text(
+                      "SAR 15,000  ",
+                      style: AppTextStyles.interBold(
+                        fontSize: 18,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                    Text(
+                      "SAR 18,000",
+                      style: AppTextStyles.interRegular(
+                        fontSize: 14,
+                        color: Colors.grey,
+                        decoration: TextDecoration.lineThrough,
+                      ),
+                    ),
+                    const Spacer(),
+                    Text(
+                      "4.5%",
+                      style: AppTextStyles.interBold(
+                        fontSize: 14,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomButton(
+                        text: "Buy Deal",
+                        onPressed: () {},
+                        height: 48,
+                        borderRadius: 12,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: () {},
+                        style: OutlinedButton.styleFrom(
+                          minimumSize: const Size(double.infinity, 48),
+                          side: BorderSide(color: AppColors.primary),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: Text(
+                          "View Details",
+                          style: AppTextStyles.interBold(
+                            fontSize: 16,
+                            color: AppColors.primary,
                           ),
                         ),
                       ),
                     ),
                   ],
                 ),
-              ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  Row(
-                    children: List.generate(
-                      3,
-                      (i) =>
-                          const Icon(Icons.star, color: Colors.amber, size: 14),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    "(4.0)",
-                    style: AppTextStyles.interRegular(
-                      fontSize: 12,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  const Spacer(),
-                  Text(
-                    "Limited",
-                    style: AppTextStyles.interMedium(
-                      fontSize: 12,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Text(
-                deals[index]["name"]!,
-                style: AppTextStyles.interBold(fontSize: 18),
-              ),
-              const SizedBox(height: 4),
-              Row(
-                children: [
-                  Text(
-                    "By Merchant ",
-                    style: AppTextStyles.interRegular(
-                      fontSize: 14,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  Text(
-                    "Confectionery",
-                    style: AppTextStyles.interBold(
-                      fontSize: 14,
-                      color: AppColors.primary,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  Text(
-                    "SAR 15,000  ",
-                    style: AppTextStyles.interBold(
-                      fontSize: 18,
-                      color: AppColors.primary,
-                    ),
-                  ),
-                  Text(
-                    "SAR 18,000",
-                    style: AppTextStyles.interRegular(
-                      fontSize: 14,
-                      color: Colors.grey,
-                      decoration: TextDecoration.lineThrough,
-                    ),
-                  ),
-                  const Spacer(),
-                  Text(
-                    "4.5%",
-                    style: AppTextStyles.interBold(
-                      fontSize: 14,
-                      color: AppColors.primary,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(
-                    child: CustomButton(
-                      text: "Buy Deal",
-                      onPressed: () {},
-                      height: 48,
-                      borderRadius: 12,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () {},
-                      style: OutlinedButton.styleFrom(
-                        minimumSize: const Size(double.infinity, 48),
-                        side: BorderSide(color: AppColors.primary),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: Text(
-                        "View Details",
-                        style: AppTextStyles.interBold(
-                          fontSize: 16,
-                          color: AppColors.primary,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
@@ -1034,7 +1068,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(20),
                       child: Image.asset(
-                        deals[index]["image"]!,
+                        dealItem["image"]!,
                         height: 220,
                         width: double.infinity,
                         fit: BoxFit.cover,
@@ -1059,7 +1093,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                 ),
                 const SizedBox(height: 32),
                 Text(
-                  deals[index]["price"]!,
+                  dealItem["price"]!,
                   style: AppTextStyles.interBold(
                     fontSize: 18,
                     color: AppColors.primary,
@@ -1067,7 +1101,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  deals[index]["name"]!,
+                  dealItem["name"]!,
                   style: AppTextStyles.interMedium(fontSize: 16),
                 ),
                 const SizedBox(height: 16),
