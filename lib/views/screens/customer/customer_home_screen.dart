@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kuponna_app/views/screens/customer/checkout_screen.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
@@ -50,7 +51,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildHeader(context, isDark),
-            const SizedBox(height: 20),
+            const SizedBox(height: 35),
             _buildQuickActions(isDark),
             const SizedBox(height: 24),
             _buildSectionHeader("Deals near you right now", showSeeMore: false),
@@ -98,7 +99,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           height: 250,
           width: double.infinity,
           decoration: const BoxDecoration(
-             borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)),
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)),
             image: DecorationImage(
               image: AssetImage(AppConstants.front),
               fit: BoxFit.cover,
@@ -148,23 +149,35 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                     ),
                     Row(
                       children: [
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.2),
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Icon(
-                            Icons.location_on_outlined,
-                            color: Colors.white,
-                            size: 20,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CheckoutScreen(),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.2),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.location_on_outlined,
+                              color: Colors.white,
+                              size: 20,
+                            ),
                           ),
                         ),
                         const SizedBox(width: 12),
                         GestureDetector(
                           onTap: () => Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (_) => const NotificationsScreen()),
+                            MaterialPageRoute(
+                              builder: (_) => const NotificationsScreen(),
+                            ),
                           ),
                           child: Container(
                             width: 45,
@@ -334,7 +347,10 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
         padding: const EdgeInsets.only(left: 20),
         itemCount: 3,
         itemBuilder: (context, index) {
-          final deal = {"name": "Sushi lunch combi", "image": AppConstants.suchi};
+          final deal = {
+            "name": "Sushi lunch combi",
+            "image": AppConstants.suchi,
+          };
           return GestureDetector(
             onTap: () => Navigator.push(
               context,
@@ -395,7 +411,10 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                         const Positioned(
                           top: 10,
                           right: 10,
-                          child: Icon(Icons.favorite_border, color: Colors.white),
+                          child: Icon(
+                            Icons.favorite_border,
+                            color: Colors.white,
+                          ),
                         ),
                       ],
                     ),
@@ -525,9 +544,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
         return GestureDetector(
           onTap: () => Navigator.push(
             context,
-            MaterialPageRoute(
-              builder: (_) => ProductDetailScreen(deal: deal),
-            ),
+            MaterialPageRoute(builder: (_) => ProductDetailScreen(deal: deal)),
           ),
           child: Container(
             margin: const EdgeInsets.only(bottom: 16),
@@ -799,9 +816,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
         return GestureDetector(
           onTap: () => Navigator.push(
             context,
-            MaterialPageRoute(
-              builder: (_) => ProductDetailScreen(deal: deal),
-            ),
+            MaterialPageRoute(builder: (_) => ProductDetailScreen(deal: deal)),
           ),
           child: Container(
             padding: const EdgeInsets.all(10),
@@ -900,8 +915,11 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                     Row(
                       children: List.generate(
                         3,
-                        (i) =>
-                            const Icon(Icons.star, color: Colors.amber, size: 14),
+                        (i) => const Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                          size: 14,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -1044,7 +1062,9 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
         return GestureDetector(
           onTap: () => Navigator.push(
             context,
-            MaterialPageRoute(builder: (_) => ProductDetailScreen(deal: dealItem)),
+            MaterialPageRoute(
+              builder: (_) => ProductDetailScreen(deal: dealItem),
+            ),
           ),
           child: Container(
             margin: const EdgeInsets.only(bottom: 24),
